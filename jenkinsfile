@@ -1,7 +1,7 @@
 pipeline {
     environment {
         registry = "essalmi/tp4devops"
-        registryCredential = 'dockerhubRW'
+        registryCredential = 'gcp-token'
         dockerImage = ''
     }
     agent any
