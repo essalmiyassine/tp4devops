@@ -34,6 +34,20 @@ pipeline {
                 }
             }
         }
+   stage('Stop Containers') {
+            steps {
+                script {
+                    // Check and stop containers using port 80
+                    def runningContainer = sh(script: 'docker ps --filter "publish=80" -q', returnStdout: true).trim()
+                    if (runningContainer) {
+                        echo "Stopping container $runningContainer that is using port 80"
+                        sh "docker stop $runningContainer"
+                    } else {
+                        echo "No container is using port 80"
+                    }
+                }
+            }
+        }
         stage('Deploy image') {
             steps {
                 sh "docker run -d -p 80:80 $registry:$BUILD_NUMBER"
